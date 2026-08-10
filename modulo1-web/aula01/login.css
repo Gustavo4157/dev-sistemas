@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+    background-color: #0b0f19;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-image: 
+        radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #38bdf8;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+main {
+    width: 100%;
+    max-width: 420px;
+    padding: 0 1.5rem;
+}
+
+section {
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+}
+
+section h2 {
+    font-size: 1.4rem;
+    color: #f8fafc;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+fieldset {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.campo-gustavo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.campo-gustavo label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+}
+
+.campo-gustavo input[type="email"],
+.campo-gustavo input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: #020617;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    color: #38bdf8;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.campo-gustavo input[type="email"]::placeholder,
+.campo-gustavo input[type="password"]::placeholder {
+    color: #475569;
+}
+
+.campo-gustavo input[type="email"]:focus,
+.campo-gustavo input[type="password"]:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+}
+
+.campo-gustavo:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    margin-top: 0.2rem;
+}
+
+.campo-gustavo input[type="checkbox"] {
+    accent-color: #0ea5e9;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.campo-gustavo input[type="checkbox"] + label {
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn-submit-gustavo {
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.btn-submit-gustavo:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #4338ca 100%);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+    transform: translateY(-1px);
+}
+
+.btn-submit-gustavo:active {
+    transform: translateY(0);
+}
+
+section a {
+    color: #64748b;
+    font-size: 0.85rem;
+    text-align: center;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    margin-top: 0.4rem;
+}
+
+section a:hover {
+    color: #38bdf8;
+    text-decoration: underline;
+}
+
+footer {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #475569;
+}
