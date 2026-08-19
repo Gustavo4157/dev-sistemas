@@ -7,17 +7,16 @@ document.getElementById('buscar').addEventListener('click', function() {
         return;
     }
 
-    const xhr = new XMLHttpRequest();
-    const url = `https://viacep.com.br/ws/${cep}/json/`;
-
-    xhr.open('GET', url, true);
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            const dados = JSON.parse(xhr.responseText);
-
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(resposta => {
+            if (!resposta.ok) {
+                throw new Error("Não foi possível realizar a consulta.");
+            }
+            return resposta.json();
+        })
+        .then(dados => {
             if (dados.erro) {
-                divResultado.innerHTML = "<p>CEP não encontrado!</p>";
+                divResultado.innerHTML = "<p>CEP inválido ou não foi localizado.</p>";
             } else {
                 divResultado.innerHTML = `
                     <p><strong>Logradouro:</strong> ${dados.logradouro}</p>
@@ -26,14 +25,8 @@ document.getElementById('buscar').addEventListener('click', function() {
                     <p><strong>UF:</strong> ${dados.uf}</p>
                 `;
             }
-        } else {
-            divResultado.innerHTML = "<p>Erro ao consultar o servidor.</p>";
-        }
-    };
-
-    xhr.onerror = function() {
-        divResultado.innerHTML = "<p>Erro de conexão com a API do ViaCEP.</p>";
-    };
-
-    xhr.send();
+        })
+        .catch(erro => {
+            divResultado.innerHTML = `<p>${erro.message}</p>`;
+        });
 });
