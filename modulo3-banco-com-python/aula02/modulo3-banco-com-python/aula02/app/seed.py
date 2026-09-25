@@ -1,9 +1,7 @@
-from app.database import SessionLocal, Base, engine
-from app.models import Departamento, Cargo, Funcionario
-
+from app.database import SessionLocal
+from app.models import Departamento, Cargo
 
 def popular_banco():
-    Base.metadata.create_all(bind=engine)
     db = SessionLocal()   # abrir sessão
     try:
         # Se já tem dados, não inserir de novo
@@ -24,12 +22,6 @@ def popular_banco():
             Cargo(titulo='Designer', nivel='Junior', salario_min=2200, salario_max=3500),
             Cargo(titulo='Analista RH', nivel='Pleno', salario_min=3500, salario_max=6000),
         ])
-        db.add_all([
-        Funcionario(nome='Gustavo Santos', email='gustavo.santos@empresa.com', telefone='56832710832', salario=4500.00),
-        Funcionario(nome='Natha Braga', email='natha.braga@empresa.com', telefone='36936930380', salario=3200.00),
-        Funcionario(nome='Ana Laura', email='ana.laura@empresa.com', telefone='34509876567', salario=6800.00),
-        Funcionario(nome='Igor Silva', email='igor.silva@empresa.com', telefone='15785409856', salario=2900.00),
-    ])
 
         db.commit()     # confirma tudo no banco de uma vez
         print('Banco preenchido com sucesso')
