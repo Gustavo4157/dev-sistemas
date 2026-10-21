@@ -2,22 +2,34 @@
 
 ## Como começar
 
-# 1. Instale as dependências
+# 1. Instale o ambiente virtual
+
+```
+python -m venv venv
+```
+
+# 2. Ative o ambiente virtual
+
+```
+source venv\Scripts\activate
+```
+
+# 3. Instale as dependências
 
 ```
 pip install -r requirements.txt
 ```
 
-# 2. Rode o servidor
+# 4. Rode o servidor
 
 ```
 uvicorn main:app --reload
 ```
 
-# 3. Acesse o Swagger
+# 5. Acesse o Swagger
 
 # http://127.0.0.1:8000/docs
 
 ## Leia o enunciado completo antes de começar!
 
-O arquivo `ENUNCIADO_SIMULADO.md` contém todas as instruções, tabelas, rotas e o checklist de testes.
+O arquivo do enunciado contém todas as instruções, tabelas, rotas e o checklist de testes.
