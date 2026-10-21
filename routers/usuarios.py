@@ -8,7 +8,7 @@ from models import Usuario
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
 
-# ── Modelos Pydantic ─────────────────────────────────────────────────────────
+# Modelos Pydantic
 
 class UsuarioCreate(BaseModel):
     nome:   str
@@ -22,14 +22,14 @@ class UsuarioUpdate(BaseModel):
     perfil: Optional[str] = None
 
 
-# ── Função auxiliar ──────────────────────────────────────────────────────────
+# Função auxiliar
 
 def get_or_404(usuario_id: int, db: Session) -> Usuario:
     # TODO: busque o usuário no banco; se não existir, raise HTTPException 404
     pass
 
 
-# ── Rotas ────────────────────────────────────────────────────────────────────
+# Rotas
 
 @router.get("/")
 def listar(db: Session = Depends(get_db)):

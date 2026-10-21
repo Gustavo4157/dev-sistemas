@@ -7,7 +7,7 @@ import models  # IMPORTANTE: importar antes do create_all
 
 app = FastAPI(
     title="API de Almoxarifado",
-    description="Sistema de controle de estoque — Simulado SAEP",
+    description="Sistema de controle de estoque - Simulado SAEP",
     version="1.0.0",
 )
 

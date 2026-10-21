@@ -8,7 +8,7 @@ from models import Movimentacao, Produto, Usuario
 router = APIRouter(prefix="/movimentacoes", tags=["Movimentacoes"])
 
 
-# ── Modelos Pydantic ─────────────────────────────────────────────────────────
+# Modelos Pydantic
 
 class MovimentacaoCreate(BaseModel):
     tipo:       str    # "entrada" ou "saida"
@@ -18,7 +18,7 @@ class MovimentacaoCreate(BaseModel):
     usuario_id: int
 
 
-# ── Rotas ────────────────────────────────────────────────────────────────────
+# Rotas
 
 @router.get("/")
 def listar(db: Session = Depends(get_db)):

@@ -8,7 +8,7 @@ from models import Produto
 router = APIRouter(prefix="/produtos", tags=["Produtos"])
 
 
-# ── Modelos Pydantic ─────────────────────────────────────────────────────────
+# Modelos Pydantic
 
 class ProdutoCreate(BaseModel):
     nome:               str
@@ -22,14 +22,14 @@ class ProdutoUpdate(BaseModel):
     quantidade_estoque: Optional[float] = None
 
 
-# ── Função auxiliar ──────────────────────────────────────────────────────────
+# Função auxiliar
 
 def get_or_404(produto_id: int, db: Session) -> Produto:
     # TODO: busque o produto no banco; se não existir, raise HTTPException 404
     pass
 
 
-# ── Rotas ────────────────────────────────────────────────────────────────────
+# Rotas
 
 @router.get("/")
 def listar(db: Session = Depends(get_db)):
