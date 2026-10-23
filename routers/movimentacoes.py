@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
@@ -7,35 +7,58 @@ from models import Movimentacao, Produto, Usuario
 
 router = APIRouter(prefix="/movimentacoes", tags=["Movimentacoes"])
 
-
 # Modelos Pydantic
-
 class MovimentacaoCreate(BaseModel):
-    tipo:       str    # "entrada" ou "saida"
+    tipo: str  # "entrada" ou "saida"
     quantidade: float
     observacao: Optional[str] = None
     produto_id: int
     usuario_id: int
 
-
 # Rotas
-
 @router.get("/")
 def listar(db: Session = Depends(get_db)):
-    # TODO: retorne todas as movimentações
-    pass
-
+    return db.query(Movimentacao).all()
 
 @router.get("/{movimentacao_id}")
 def buscar(movimentacao_id: int, db: Session = Depends(get_db)):
-    # TODO: busque a movimentação; 404 se não existir
-    pass
-
+    movimentacao = db.query(Movimentacao).filter(Movimentacao.id == movimentacao_id).first()
+    if not movimentacao:
+        raise HTTPException(status_code=404, detail="Movimentação não encontrada")
+    return movimentacao
 
 @router.post("/", status_code=201)
 def criar(dados: MovimentacaoCreate, db: Session = Depends(get_db)):
-    # TODO 1: verifique se produto_id existe → 404 "Produto não encontrado"
-    # TODO 2: verifique se usuario_id existe → 404 "Usuário não encontrado"
-    # TODO 3 (DESAFIO): se tipo == "saida", verifique estoque suficiente → 400
+    # TODO 1: verifique se produto_id existe -> 404 "Produto não encontrado"
+    produto = db.query(Produto).filter(Produto.id == dados.produto_id).first()
+    if not produto:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+
+    # TODO 2: verifique se usuario_id existe -> 404 "Usuário não encontrado"
+    usuario = db.query(Usuario).filter(Usuario.id == dados.usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+    # TODO 3 (DESAFIO): se tipo == "saida", verifique estoque suficiente -> 400
+    if dados.tipo == "saida" and produto.quantidade_estoque < dados.quantidade:
+        raise HTTPException(status_code=400, detail="Estoque insuficiente")
+
+    # Atualiza o estoque do produto conforme o tipo da movimentação
+    if dados.tipo == "entrada":
+        produto.quantidade_estoque += dados.quantidade
+    elif dados.tipo == "saida":
+        produto.quantidade_estoque -= dados.quantidade
+
     # TODO 4: crie e salve a movimentação
-    pass
+    nova_movimentacao = Movimentacao(
+        tipo=dados.tipo,
+        quantidade=dados.quantidade,
+        observacao=dados.observacao,
+        produto_id=dados.produto_id,
+        usuario_id=dados.usuario_id
+    )
+    db.add(nova_movimentacao)
+    db.commit()
+    db.refresh(nova_movimentacao)
+    
+    return nova_movimentacao
