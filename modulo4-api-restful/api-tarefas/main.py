@@ -1,6 +1,13 @@
-from fastapi import FastAPI, HTTPException 
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 from typing import Optional
+from auth import (
+    criar_hash,
+    verificar_senha,
+    criar_token,
+    usuario_logado,
+    usuarios_db
+)
 
 app = FastAPI(title='API de Tarefas', version='1.0.0')
 
@@ -30,9 +37,27 @@ def encontrar_tarefa(tarefa_id: int):
 # ============================
 # AUTENTICAÇÃO 
 # Rota POST auth/registro
+@app.post('/auth/registro', status_code=status.HTTP_201_CREATED)
+def registrar(usuario: UsuarioCreate):
+    # Verificar se o usuário já existe
+    if any(u['email'] == usuario.email for u in usuarios_db):
+        raise HTTPException(status_code=400, detail="E-mail já cadastrado")
+    
+    senha_hash = criar_hash(usuario.senha)
+    usuarios_db.append({"email": usuario.email, "senha": senha_hash})
+    return {"mensagem": f"Usuário {usuario.email} cadastrado com sucesso!"}
+
 
 # Rota POST auth/login
-
+@app.post('/auth/login')
+def login(usuario: UsuarioLogin):
+    # Buscar usuário
+    user = next((u for u in usuarios_db if u['email'] == usuario.email), None)
+    if not user or not verificar_senha(usuario.senha, user['senha']):
+        raise HTTPException(status_code=401, detail="E-mail ou senha incorretos")
+    
+    token = criar_token({"sub": user['email']})
+    return {"access_token": token, "token_type": "bearer"}
 
 # ============================
 
