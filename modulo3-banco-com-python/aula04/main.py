@@ -1,3 +1,6 @@
+import os
+os.environ["DISABLE_SQLALCHEMY_CEXT"] = "1"
+
 from app.database import engine, SessionLocal
 from app import models
 from app.models import Categoria, Fornecedor, Produto
@@ -38,27 +41,32 @@ print(f'Fornecedores criados: {forn1.id}, {forn2.id}, {forn3.id}')
 
 # produtos
 produtos = [
-    Produto(nome="Notebook Dell 15", preco=3500.0, quantidade=10, 
+    Produto(nome="Notebook Dell 15", preco=3500.0, quantidade=10,
             categoria_id=cat1.id, fornecedor_id=forn1.id),
     Produto(nome="Mouse", preco=89.90, quantidade=50,
             categoria_id=cat1.id, fornecedor_id=forn1.id),
+
     Produto(nome="Camisa", preco=50.0, quantidade=80,
             categoria_id=cat2.id, fornecedor_id=forn2.id),
+
     Produto(nome="Calça", preco=100.0, quantidade=45,
-            categoria_id=cat2.id, fornecedor_id=forn2.id),
+                categoria_id=cat2.id, fornecedor_id=forn2.id),
+
     Produto(nome="Arroz", preco=29.90, quantidade=200,
             categoria_id=cat3.id, fornecedor_id=forn3.id),
+
     Produto(nome="Pão", preco=8.90, quantidade=400,
-            categoria_id=cat3.id, fornecedor_id=forn3.id),
+            categoria_id=cat3.id, fornecedor_id=forn3.id),      
+               
 ]
 for p in produtos:
     db.add(p)
 db.commit()
-print(f' {len(produtos)} produtos inseridos')
+print(f'{len(produtos)} produtos inseridos')
 
-# Listar pra confirmar
+#Listar pra confirmar
 todos = db.query(Produto).all()
 print("\n Produtos no banco")
 for p in todos:
     print(f' [{p.id}] {p.nome} R$ {p.preco:.2f} Qtd: {p.quantidade}')
-db.close()
+db.close()    
